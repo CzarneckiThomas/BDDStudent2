@@ -25,7 +25,7 @@ class TestFixtures extends Fixture
         $faker = FakerFactory::create('fr_FR');
 
         $this->loadSchoolYears($manager, $faker);
-        // $this->Students($manager, $faker);
+        $this->loadStudents($manager, $faker);
         // $this->loadProjects($manager, $faker);
         // $this->loadTags($manager, $faker);
     }
@@ -63,28 +63,34 @@ class TestFixtures extends Fixture
         $manager->flush();
     }
 
-    // public function loadStudents(ObjectManager $manager, FakerGenerator $faker): void
-    // {
-    //     $schoolYearDatas = [
-    //         [
-    //             'firstname' => 'Thomas',
-    //             'lastname' => 'Czarnecki',
-    //             'email' => 'exemple@orange.fr',
-    //         ],
-    //         [
-    //             'firstname' => 'Marion',
-    //             'lastname' => 'Czar',
-    //             'email' => 'exemple@free.fr',
-    //         ],
-    //         [
-    //             'firstname' => 'Tim',
-    //             'lastname' => 'Czar',
-    //             'email' => 'exemple@laposte.fr',
-    //         ],
+    public function loadStudents(ObjectManager $manager, FakerGenerator $faker): void
+    {
+        $studentDatas = [
+            [
+                'firstname' => 'Thomas',
+                'lastname' => 'Czarnecki',
+                'email' => 'exemple@orange.fr',
+            ],
+            [
+                'firstname' => 'Marion',
+                'lastname' => 'Czar',
+                'email' => 'exemple@free.fr',
+            ],
+            [
+                'firstname' => 'Tim',
+                'lastname' => 'Czar',
+                'email' => 'exemple@laposte.fr',
+            ],
            
-    //     ];
-
-    //     $manager->flush();
-    // }
-
+        ];
+        foreach ($studentDatas as $studentData) {
+                    $student = new Student();
+                    $student->setFirstname($studentData['firstname']);
+                    $student->setLastname($studentData['lastname']);
+                    $student->setEmail($studentData['email']);
+        
+                    $manager->persist($student);
+        }
+        $manager->flush();
+    }
 }
