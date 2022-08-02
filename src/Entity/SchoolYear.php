@@ -49,24 +49,24 @@ class SchoolYear
         return $this;
     }
 
-    public function getStartedAt(): ?\DateTimeImmutable
+    public function getStartdate(): ?\DateTimeImmutable
     {
         return $this->started_at;
     }
 
-    public function setStartedAt(\DateTimeImmutable $started_at): self
+    public function setStartdate(\DateTimeImmutable $started_at): self
     {
         $this->started_at = $started_at;
 
         return $this;
     }
 
-    public function getFinishedAt(): ?\DateTimeImmutable
+    public function getEnddate(): ?\DateTimeImmutable
     {
         return $this->finished_at;
     }
 
-    public function setFinishedAt(\DateTimeImmutable $finished_at): self
+    public function setEnddate(\DateTimeImmutable $finished_at): self
     {
         $this->finished_at = $finished_at;
 

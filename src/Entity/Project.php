@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
@@ -13,20 +12,23 @@ class Project
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
-    #[ORM\Column(length: 190)]
-    private ?string $name = null;
+    #[ORM\Column(type: 'string', length: 190)]
+    private $name;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $description = null;
+    #[ORM\Column(type: 'date', nullable: true)]
+    private $startdate;
+
+    #[ORM\Column(type: 'date', nullable: true)]
+    private $enddate;
 
     #[ORM\ManyToMany(targetEntity: Student::class, mappedBy: 'projects')]
-    private Collection $students;
+    private $students;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'projects')]
-    private Collection $tags;
+    private $tags;
 
     public function __construct()
     {
@@ -51,14 +53,26 @@ class Project
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getStartdate(): ?\DateTimeInterface
     {
-        return $this->description;
+        return $this->startdate;
     }
 
-    public function setDescription(?string $description): self
+    public function setStartdate(?\DateTimeInterface $startdate): self
     {
-        $this->description = $description;
+        $this->startdate = $startdate;
+
+        return $this;
+    }
+
+    public function getEnddate(): ?\DateTimeInterface
+    {
+        return $this->enddate;
+    }
+
+    public function setEnddate(?\DateTimeInterface $enddate): self
+    {
+        $this->enddate = $enddate;
 
         return $this;
     }
@@ -74,7 +88,7 @@ class Project
     public function addStudent(Student $student): self
     {
         if (!$this->students->contains($student)) {
-            $this->students->add($student);
+            $this->students[] = $student;
             $student->addProject($this);
         }
 
@@ -101,7 +115,7 @@ class Project
     public function addTag(Tag $tag): self
     {
         if (!$this->tags->contains($tag)) {
-            $this->tags->add($tag);
+            $this->tags[] = $tag;
         }
 
         return $this;
